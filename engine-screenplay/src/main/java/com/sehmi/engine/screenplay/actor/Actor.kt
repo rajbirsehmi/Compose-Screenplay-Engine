@@ -9,12 +9,17 @@ import kotlin.reflect.KClass
 /**
  * Represents a user or system entity interacting with the application under test in Screenplay scenarios.
  * An actor possesses [Ability]s and can perform [Performable]s (actions and tasks) or evaluate questions.
+ *
+ * @property name The name of the actor.
  */
 class Actor(val name: String) {
     private val abilities: MutableMap<KClass<out Ability>, Ability> = mutableMapOf()
 
     /**
      * Grants one or more [Ability]s to this actor.
+     *
+     * @param newAbilities Vararg list of [Ability] instances.
+     * @return This [Actor] instance for chaining.
      */
     fun can(vararg newAbilities: Ability): Actor {
         for (ability in newAbilities) {
@@ -27,6 +32,9 @@ class Actor(val name: String) {
     /**
      * Retrieves an ability of the specified class possessed by this actor.
      * Throws an [IllegalStateException] if the actor does not possess the ability.
+     *
+     * @param abilityClass The [KClass] of the ability.
+     * @return The recalled ability instance.
      */
     @Suppress("UNCHECKED_CAST")
     fun <T : Ability> recallAbilityTo(abilityClass: KClass<T>): T {
@@ -36,6 +44,8 @@ class Actor(val name: String) {
 
     /**
      * Convenience generic method to recall an ability.
+     *
+     * @return The recalled ability instance of type [T].
      */
     inline fun <reified T : Ability> recall(): T {
         return recallAbilityTo(T::class)
@@ -43,6 +53,9 @@ class Actor(val name: String) {
 
     /**
      * Instructs the actor to perform one or more [Performable] activities (actions or tasks).
+     *
+     * @param performables Vararg list of [Performable] activities.
+     * @return This [Actor] instance for chaining.
      */
     fun attemptsTo(vararg performables: Performable): Actor {
         ScreenplayLogger.logActor(name, "Attempts to execute ${performables.size} activities.")
@@ -54,6 +67,9 @@ class Actor(val name: String) {
 
     /**
      * Evaluates one or more [Consequence] assertions.
+     *
+     * @param consequences Vararg list of [Consequence] assertions.
+     * @return This [Actor] instance for chaining.
      */
     fun should(vararg consequences: Consequence): Actor {
         for (consequence in consequences) {

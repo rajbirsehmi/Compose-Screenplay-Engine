@@ -9,6 +9,9 @@ class Stage {
 
     /**
      * Finds or creates an actor with the given name.
+     *
+     * @param name The name of the actor.
+     * @return The [Actor] instance.
      */
     fun actorNamed(name: String): Actor {
         return actors.getOrPut(name) {
@@ -22,6 +25,8 @@ class Stage {
 
     /**
      * Sets the actor currently in the spotlight.
+     *
+     * @param actor The [Actor] to put in the spotlight.
      */
     fun shineSpotlightOn(actor: Actor) {
         spotlightActor = actor
@@ -30,6 +35,8 @@ class Stage {
 
     /**
      * Gets the actor currently in the spotlight, throwing an exception if none is set.
+     *
+     * @return The spotlight [Actor].
      */
     fun spotlight(): Actor {
         return spotlightActor

@@ -9,6 +9,9 @@ object OnStage {
 
     /**
      * Retrieves or creates an actor with the given name and puts them in the spotlight.
+     *
+     * @param name The name of the actor.
+     * @return The [Actor] instance.
      */
     fun theActorCalled(name: String): Actor {
         val actor = stage.actorNamed(name)
@@ -18,6 +21,8 @@ object OnStage {
 
     /**
      * Returns the actor currently in the spotlight.
+     *
+     * @return The [Actor] in the spotlight.
      */
     fun theActorInTheSpotlight(): Actor {
         return stage.spotlight()
