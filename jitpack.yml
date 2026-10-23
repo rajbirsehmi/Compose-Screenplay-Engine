@@ -2,4 +2,4 @@ jdk:
   - openjdk17
 
 install:
-  - ./gradlew :engine-screenplay:publishToMavenLocal
+  - ./gradlew :engine-screenplay:publishToMavenLocal :engine-lint:publishToMavenLocal
