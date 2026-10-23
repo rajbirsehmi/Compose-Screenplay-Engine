@@ -111,4 +111,4 @@ jobs:
         run: |
           TAG_NAME="${{ steps.get_version.outputs.VERSION }}"
           echo "Pinging JitPack for $TAG_NAME..."
-          curl -s "https://jitpack.io/api/builds/com.github.rajbirsehmi/Compose-Screenplay-Engine/$TAG_NAME" > /dev/null
+          curl -s "https://jitpack.io/api/builds/com.github.rajbirsehmi/engine/$TAG_NAME" > /dev/null
