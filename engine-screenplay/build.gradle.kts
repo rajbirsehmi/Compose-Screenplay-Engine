@@ -69,7 +69,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 from(components["release"])
                 groupId = "com.github.rajbirsehmi"
-                artifactId = "compose-screenplay-engine"
+                artifactId = "engine"
                 version = "1.0.0-alpha02"
             }
         }
