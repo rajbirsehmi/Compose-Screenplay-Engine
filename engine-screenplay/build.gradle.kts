@@ -49,6 +49,10 @@ dependencies {
 
     api(libs.androidx.core.ktx)
     api(libs.kotlinx.coroutines.android)
+    api(libs.uiautomator)
+
+    api(libs.log4j.api)
+    api(libs.log4j.core)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
@@ -64,7 +68,7 @@ afterEvaluate {
         publications {
             create<MavenPublication>("release") {
                 from(components["release"])
-                groupId = "com.sehmi"
+                groupId = "com.github.rajbirsehmi"
                 artifactId = "compose-screenplay-engine"
                 version = "1.0.0-alpha01"
             }

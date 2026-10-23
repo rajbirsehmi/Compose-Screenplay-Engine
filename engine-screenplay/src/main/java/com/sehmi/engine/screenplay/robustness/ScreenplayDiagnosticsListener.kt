@@ -12,6 +12,9 @@ import java.io.FileOutputStream
 
 /**
  * Captures diagnostic artifacts (Compose semantics tree dump and screenshot bitmap) when test actions fail.
+ *
+ * @property composeTestRule The [ComposeTestRule] used to capture semantics and screenshots.
+ * @property outputDirectory Directory where diagnostic files are saved.
  */
 class ScreenplayDiagnosticsListener(
     private val composeTestRule: ComposeTestRule,
@@ -20,6 +23,11 @@ class ScreenplayDiagnosticsListener(
 
     /**
      * Executes a block and captures diagnostics if an exception occurs.
+     *
+     * @param T The return type of the block.
+     * @param testName Name of the test.
+     * @param block The block of code to execute.
+     * @return The result of the block if successful.
      */
     inline fun <T> captureOnFailure(testName: String, block: () -> T): T {
         return try {
@@ -31,6 +39,12 @@ class ScreenplayDiagnosticsListener(
         }
     }
 
+    /**
+     * Dumps semantics and screenshot diagnostics to storage.
+     *
+     * @param testName Name of the test.
+     * @param throwable The failure exception.
+     */
     fun dumpDiagnostics(testName: String, throwable: Throwable) {
         try {
             if (!outputDirectory.exists()) {

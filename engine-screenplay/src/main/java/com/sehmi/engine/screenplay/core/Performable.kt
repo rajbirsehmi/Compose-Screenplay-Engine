@@ -9,6 +9,8 @@ import com.sehmi.engine.screenplay.actor.Actor
 interface Performable {
     /**
      * Executes this performable as the given [actor].
+     *
+     * @param actor The [Actor] executing the work.
      */
     fun performAs(actor: Actor)
 }
