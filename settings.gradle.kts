@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Compose Screenplay Engine"
 include(":app")
+include(":engine-screenplay")
