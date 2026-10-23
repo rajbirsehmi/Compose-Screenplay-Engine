@@ -240,10 +240,10 @@ dependencyResolutionManagement {
 ### Step 2: Configure Version Catalog (`gradle/libs.versions.toml`)
 ```toml
 [versions]
-composeScreenplayEngine = "1.0.0-alpha01"
+engine = "1.0.0-alpha02"
 
 [libraries]
-compose-screenplay-engine = { group = "com.github.rajbirsehmi", name = "Compose-Screenplay-Engine", version.ref = "composeScreenplayEngine" }
+engine = { group = "com.github.rajbirsehmi", name = "engine", version.ref = "engine" }
 ```
 
 ### Step 3: Add Dependency in `build.gradle.kts`
@@ -251,9 +251,9 @@ Add the dependency to your consuming app or module's `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    androidTestImplementation(libs.compose.screenplay.engine)
+    androidTestImplementation(libs.engine)
     // Or directly via string notation:
-    // androidTestImplementation("com.github.rajbirsehmi:Compose-Screenplay-Engine:1.0.0-alpha01")
+    // androidTestImplementation("com.github.rajbirsehmi:engine:1.0.0-alpha02")
 }
 ```
 

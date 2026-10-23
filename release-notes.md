@@ -1,6 +1,6 @@
 # Compose Screenplay Engine Release
 
-Initial stable release of Compose Screenplay Engine (`com.sehmi.engine:compose-screenplay-engine:1.0.0-alpha01`).
+Initial alpha release of Compose Screenplay Engine (`com.github.rajbirsehmi:engine:1.0.0-alpha02`).
 
 ### Features
 - Screenplay Pattern (Actor, Ability, Task, Action, Question, Consequence) for Jetpack Compose UI Testing.
