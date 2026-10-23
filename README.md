@@ -243,7 +243,7 @@ dependencyResolutionManagement {
 engine = "1.0.0-alpha02"
 
 [libraries]
-engine = { group = "com.github.rajbirsehmi", name = "engine", version.ref = "engine" }
+engine = { group = "com.github.rajbirsehmi.Compose-Screenplay-Engine", name = "engine", version.ref = "engine" }
 ```
 
 ### Step 3: Add Dependency in `build.gradle.kts`
@@ -253,7 +253,7 @@ Add the dependency to your consuming app or module's `build.gradle.kts`:
 dependencies {
     androidTestImplementation(libs.engine)
     // Or directly via string notation:
-    // androidTestImplementation("com.github.rajbirsehmi:engine:1.0.0-alpha02")
+    // androidTestImplementation("com.github.rajbirsehmi.Compose-Screenplay-Engine:engine:1.0.0-alpha02")
 }
 ```
 
