@@ -70,7 +70,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.rajbirsehmi"
                 artifactId = "compose-screenplay-engine"
-                version = "1.0.0-alpha01"
+                version = "1.0.0-alpha02"
             }
         }
     }
