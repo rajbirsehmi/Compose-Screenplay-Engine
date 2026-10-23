@@ -1,15 +1,25 @@
-name: Compose Screenplay Engine CI
+name: Compose Screenplay Engine CI & Release
 
 on:
   push:
     branches: [ "main", "master", "dev" ]
+    paths:
+      - 'engine-screenplay/**'
+      - 'engine-lint/**'
+      - 'gradle/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'release-notes.md'
+      - '.github/workflows/**'
   pull_request:
     branches: [ "main", "master", "dev" ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -26,8 +36,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Run Unit Tests
-        run: ./gradlew test
+      - name: Run Unit and Lint Tests
+        run: ./gradlew :engine-screenplay:testDebugUnitTest :engine-lint:test
 
       - name: Enable KVM
         run: |
@@ -51,7 +61,7 @@ jobs:
           disk-size: 8G
           disable-animations: true
           emulator-options: -no-window -no-snapshot -noaudio -no-boot-anim
-          script: ./gradlew :engine-screenplay:connectedCheck
+          script: ./gradlew :app:connectedDebugAndroidTest
 
       - name: Upload Test Reports
         uses: actions/upload-artifact@v4
@@ -61,3 +71,44 @@ jobs:
           path: |
             **/build/reports/
             **/build/outputs/androidTest-results/
+            **/FAILURE_*
+          if-no-files-found: ignore
+
+      - name: Build Release Artifacts
+        run: ./gradlew :engine-screenplay:assembleRelease :engine-lint:assemble
+
+      - name: Verify AAR and JAR
+        run: |
+          ls -R engine-screenplay/build/outputs/aar/
+          ls -R engine-lint/build/libs/
+          if [ ! -f engine-screenplay/build/outputs/aar/engine-screenplay-release.aar ]; then echo "AAR missing"; exit 1; fi
+          if [ ! -f engine-lint/build/libs/engine-lint.jar ]; then echo "Lint JAR missing"; exit 1; fi
+
+      - name: Extract Version
+        id: get_version
+        run: |
+          VERSION=$(grep -m 1 "version =" engine-screenplay/build.gradle.kts | awk -F'"' '{print $2}')
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Create Release (on main)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          name: Release ${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: ${{ contains(steps.get_version.outputs.VERSION, 'alpha') || contains(steps.get_version.outputs.VERSION, 'beta') }}
+          files: |
+            engine-screenplay/build/outputs/aar/engine-screenplay-release.aar
+            engine-lint/build/libs/engine-lint.jar
+          body_path: release-notes.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Ping JitPack
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          TAG_NAME="${{ steps.get_version.outputs.VERSION }}"
+          echo "Pinging JitPack for $TAG_NAME..."
+          curl -s "https://jitpack.io/api/builds/com.github.rajbirsehmi/Compose-Screenplay-Engine/$TAG_NAME" > /dev/null

@@ -8,6 +8,8 @@ import com.sehmi.engine.screenplay.actor.Actor
 interface Consequence {
     /**
      * Evaluates the consequence as the given [actor].
+     *
+     * @param actor The [Actor] evaluating the consequence.
      */
     fun evaluateAs(actor: Actor)
 }

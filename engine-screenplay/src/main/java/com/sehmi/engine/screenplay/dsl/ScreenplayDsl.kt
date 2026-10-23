@@ -7,6 +7,10 @@ import com.sehmi.engine.screenplay.consequences.Consequence
 
 /**
  * BDD Given clause for setting up actor and pre-conditions.
+ *
+ * @param actorName Name of the actor.
+ * @param block Lambda block executed in the context of the actor.
+ * @return The [Actor] instance.
  */
 inline fun givenThat(actorName: String, block: Actor.() -> Unit): Actor {
     val actor = OnStage.theActorCalled(actorName)
@@ -16,6 +20,9 @@ inline fun givenThat(actorName: String, block: Actor.() -> Unit): Actor {
 
 /**
  * BDD When clause for executing actions or tasks.
+ *
+ * @param block Lambda block executed in the context of the actor in spotlight.
+ * @return The [Actor] instance.
  */
 inline fun whenUser(block: Actor.() -> Unit): Actor {
     val actor = OnStage.theActorInTheSpotlight()
@@ -25,6 +32,9 @@ inline fun whenUser(block: Actor.() -> Unit): Actor {
 
 /**
  * BDD Then clause for evaluating consequences.
+ *
+ * @param consequences Vararg list of consequences.
+ * @return The [Actor] instance.
  */
 inline fun thenUser(vararg consequences: Consequence): Actor {
     val actor = OnStage.theActorInTheSpotlight()
@@ -34,6 +44,9 @@ inline fun thenUser(vararg consequences: Consequence): Actor {
 
 /**
  * Extension helper to allow actor to attempt performables inside DSL blocks.
+ *
+ * @param performables Vararg list of performables.
+ * @return The [Actor] instance.
  */
 fun Actor.attempts(vararg performables: Performable): Actor {
     return attemptsTo(*performables)

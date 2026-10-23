@@ -11,14 +11,23 @@ abstract class Task : Performable {
 
     /**
      * Returns a description of this task.
+     *
+     * @return Task description string.
      */
     abstract fun description(): String
 
     /**
-     * Executes all constituent performables of this task sequentially.
+     * Returns the list of constituent performables that make up this task.
+     *
+     * @return List of [Performable] activities.
      */
     protected abstract fun actionsToPerform(): List<Performable>
 
+    /**
+     * Executes all constituent performables of this task sequentially.
+     *
+     * @param actor The [Actor] executing the task.
+     */
     override fun performAs(actor: Actor) {
         ScreenplayLogger.logStep("Starting Task: ${description()}")
         for (action in actionsToPerform()) {
@@ -30,6 +39,10 @@ abstract class Task : Performable {
     companion object {
         /**
          * Creates an inline composite [Task] from a list of performables and a description.
+         *
+         * @param description Task description.
+         * @param performables Vararg list of performables.
+         * @return A composite [Task] instance.
          */
         fun where(description: String, vararg performables: Performable): Task {
             return object : Task() {
